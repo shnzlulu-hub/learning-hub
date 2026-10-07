@@ -3,366 +3,368 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Learning Hub – Portal Hub Pembelajaran</title>
-<meta name="description" content="Portal belajar gratis: modul bacaan, video, dan latihan soal dalam satu tempat.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<title>Portal Pembelajaran Interaktif</title>
 <style>
 :root{
-  --bg:#f5f7fa; --surface:#fff; --ink:#1c2733; --muted:#5f6f7f; --line:#e1e7ee;
-  --blue:#1f6feb; --blue-soft:#e8f0fe; --green:#14935f; --green-soft:#e3f6ee;
-  --amber:#b7791f; --amber-soft:#fdf3dc; --radius:14px;
+  --indigo:#4338ca; --indigo-d:#312e81; --blue:#2563eb; --soft:#eef2ff;
+  --bg:#f5f7fb; --card:#fff; --text:#1e293b; --muted:#64748b; --line:#e2e8f0;
+  --radius:14px;
 }
-@media (prefers-color-scheme:dark){
-  :root{--bg:#10161d;--surface:#18212b;--ink:#e8eef4;--muted:#9aabbb;--line:#26323f;
-    --blue:#5b9bff;--blue-soft:#18304f;--green:#3ccf94;--green-soft:#133a2c;--amber:#e8b45a;--amber-soft:#3a2f14;}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--text);line-height:1.55}
+.hidden{display:none!important}
+button,input,select{font:inherit}
+:focus-visible{outline:3px solid #818cf8;outline-offset:2px}
+.btn{border:0;border-radius:10px;padding:.7rem 1.1rem;font-weight:600;cursor:pointer;background:var(--indigo);color:#fff;transition:background .15s}
+.btn:hover{background:var(--indigo-d)}
+.btn.ghost{background:var(--soft);color:var(--indigo)}
+.btn.ghost:hover{background:#e0e7ff}
+
+/* ===== AUTH ===== */
+#auth{min-height:100vh;display:grid;place-items:center;padding:1.25rem;
+  background:linear-gradient(135deg,#e0e7ff 0%,#f5f7fb 55%,#dbeafe 100%)}
+.auth-card{width:100%;max-width:400px;background:var(--card);border-radius:20px;padding:2rem 1.75rem;box-shadow:0 20px 50px rgba(49,46,129,.15)}
+.brand{display:flex;align-items:center;gap:.6rem;font-weight:800;font-size:1.15rem;color:var(--indigo-d)}
+.logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--indigo),var(--blue));display:grid;place-items:center;color:#fff;font-size:1.1rem}
+.auth-card h1{font-size:1.5rem;margin:1.25rem 0 .25rem}
+.auth-card p.sub{color:var(--muted);font-size:.92rem;margin-bottom:1.25rem}
+.tabs{display:grid;grid-template-columns:1fr 1fr;background:var(--bg);border-radius:12px;padding:4px;margin-bottom:1.25rem}
+.tabs button{border:0;background:none;padding:.6rem;border-radius:9px;font-weight:600;color:var(--muted);cursor:pointer}
+.tabs button.active{background:#fff;color:var(--indigo);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+label{display:block;font-size:.85rem;font-weight:600;margin-bottom:.3rem}
+.field{margin-bottom:1rem}
+.field input{width:100%;padding:.7rem .85rem;border:1.5px solid var(--line);border-radius:10px;background:#fff}
+.field input:focus{border-color:var(--indigo);outline:none;box-shadow:0 0 0 3px #c7d2fe}
+#authError{color:#b91c1c;font-size:.85rem;min-height:1.2em;margin-bottom:.5rem}
+.auth-card .btn{width:100%}
+.guest{display:block;margin:1rem auto 0;background:none;border:0;color:var(--indigo);font-weight:600;cursor:pointer;text-decoration:underline}
+
+/* ===== NAVBAR ===== */
+header{background:#fff;border-bottom:1px solid var(--line);position:sticky;top:0;z-index:20}
+.nav{max-width:1150px;margin:auto;padding:.8rem 1.1rem;display:flex;flex-wrap:wrap;align-items:center;gap:.8rem}
+.nav .user{margin-left:auto;display:flex;align-items:center;gap:.7rem;font-size:.9rem}
+.avatar{width:32px;height:32px;border-radius:50%;background:var(--soft);color:var(--indigo);display:grid;place-items:center;font-weight:700}
+.tools{max-width:1150px;margin:auto;padding:0 1.1rem .8rem;display:flex;flex-wrap:wrap;gap:.6rem}
+.tools input{flex:1 1 240px;padding:.65rem .9rem;border:1.5px solid var(--line);border-radius:10px}
+.tools select{padding:.65rem .9rem;border:1.5px solid var(--line);border-radius:10px;background:#fff}
+
+/* ===== HERO ===== */
+.hero{max-width:1150px;margin:1.25rem auto;padding:2rem 1.5rem;border-radius:20px;color:#fff;
+  background:linear-gradient(120deg,var(--indigo-d),var(--blue))}
+.hero h2{font-size:clamp(1.4rem,3.5vw,2rem);margin-bottom:.4rem}
+.hero p{max-width:60ch;opacity:.92}
+.hero ol{margin:.9rem 0 0 1.2rem;font-size:.92rem;opacity:.95}
+main{max-width:1150px;margin:auto;padding:0 1.1rem 3rem}
+.count{color:var(--muted);font-size:.9rem;margin:1.2rem 0 .8rem}
+
+/* ===== GRID ===== */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:1.1rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:1.2rem;display:flex;flex-direction:column;gap:.6rem}
+.tag{align-self:flex-start;background:var(--soft);color:var(--indigo);font-size:.78rem;font-weight:700;padding:.2rem .6rem;border-radius:999px}
+.card h3{font-size:1.08rem}
+.card p{color:var(--muted);font-size:.92rem;flex:1}
+.meta{font-size:.82rem;color:var(--muted)}
+.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:2.5rem 1rem;background:#fff;border:1px dashed var(--line);border-radius:var(--radius)}
+
+/* ===== MODAL ===== */
+#modal{position:fixed;inset:0;background:rgba(15,23,42,.65);display:flex;align-items:center;justify-content:center;padding:.8rem;z-index:50}
+.modal-box{background:#fff;width:100%;max-width:1000px;height:92vh;border-radius:16px;display:flex;flex-direction:column;overflow:hidden}
+.modal-head{display:flex;align-items:center;gap:.8rem;padding:.8rem 1rem;border-bottom:1px solid var(--line)}
+.modal-head h3{flex:1;font-size:1.05rem}
+.h5p-frame{flex:1;background:var(--bg);position:relative}
+.h5p-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.placeholder{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:1.5rem;color:var(--muted)}
+
+@media(max-width:600px){
+  .nav .user span.name{display:none}
+  .modal-box{height:96vh;border-radius:12px}
 }
-*{box-sizing:border-box;margin:0}
-html{scroll-behavior:smooth}
-body{font-family:'Plus Jakarta Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--ink);line-height:1.6}
-a{color:var(--blue)}
-:focus-visible{outline:3px solid var(--blue);outline-offset:2px;border-radius:6px}
-.wrap{max-width:1180px;margin:0 auto;padding:0 20px}
-
-/* Header */
-header{position:sticky;top:0;z-index:20;background:var(--surface);border-bottom:1px solid var(--line)}
-.bar{display:flex;align-items:center;gap:16px;padding:12px 0;flex-wrap:wrap}
-.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.15rem;text-decoration:none;color:var(--ink)}
-.logo{width:36px;height:36px;border-radius:10px;background:linear-gradient(135deg,var(--blue),var(--green));display:grid;place-items:center;color:#fff}
-.search{flex:1;min-width:220px;position:relative}
-.search input{width:100%;padding:10px 14px 10px 40px;border:1px solid var(--line);border-radius:999px;background:var(--bg);color:var(--ink);font:inherit}
-.search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted)}
-.filters{display:flex;gap:8px;overflow-x:auto;padding:0 0 12px;scrollbar-width:thin}
-.chip{border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:7px 16px;border-radius:999px;font:inherit;font-size:.9rem;font-weight:600;cursor:pointer;white-space:nowrap}
-.chip[aria-pressed="true"]{background:var(--blue);border-color:var(--blue);color:#fff}
-
-/* Hero */
-.hero{padding:56px 0 36px}
-.hero h1{font-size:clamp(2rem,5vw,3.2rem);line-height:1.15;font-weight:800;max-width:18ch;letter-spacing:-.02em}
-.hero p{margin-top:16px;color:var(--muted);max-width:56ch;font-size:1.05rem}
-.stats{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
-.stat{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 22px;min-width:150px}
-.stat b{display:block;font-size:1.7rem;font-weight:800;color:var(--blue);line-height:1.2}
-.stat:nth-child(2) b{color:var(--green)}
-.stat span{color:var(--muted);font-size:.9rem}
-
-/* Catalog */
-.meta{display:flex;justify-content:space-between;align-items:baseline;margin:12px 0 18px}
-.meta h2{font-size:1.3rem}
-.meta small{color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(290px,1fr));gap:20px;padding-bottom:60px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px;display:flex;flex-direction:column;gap:12px}
-.card h3{font-size:1.1rem;line-height:1.35}
-.card p{color:var(--muted);font-size:.93rem;flex:1}
-.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
-.tag{font-size:.78rem;font-weight:700;padding:3px 10px;border-radius:999px}
-.tag.modul{background:var(--blue-soft);color:var(--blue)}
-.tag.video{background:var(--amber-soft);color:var(--amber)}
-.tag.kuis{background:var(--green-soft);color:var(--green)}
-.lvl,.time{font-size:.82rem;color:var(--muted)}
-.done{margin-left:auto;font-size:.8rem;font-weight:700;color:var(--green)}
-.btn{border:0;background:var(--blue);color:#fff;padding:10px 18px;border-radius:10px;font:inherit;font-weight:700;cursor:pointer;text-decoration:none;display:inline-block;text-align:center}
-.btn.alt{background:var(--green)}
-.btn.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
-.btn:hover{filter:brightness(1.08)}
-.empty{grid-column:1/-1;text-align:center;padding:50px 10px;color:var(--muted)}
-footer{border-top:1px solid var(--line);padding:24px 0;color:var(--muted);font-size:.9rem;text-align:center}
-
-/* Modal */
-.overlay{position:fixed;inset:0;background:rgba(10,18,28,.6);display:none;align-items:flex-start;justify-content:center;padding:24px 12px;overflow-y:auto;z-index:50}
-.overlay.open{display:flex}
-.modal{background:var(--surface);border-radius:18px;width:100%;max-width:820px;padding:24px;position:relative;animation:pop .18s ease-out}
-@keyframes pop{from{transform:scale(.97);opacity:0}to{transform:none;opacity:1}}
-.x{position:absolute;top:14px;right:14px;border:1px solid var(--line);background:var(--surface);color:var(--ink);width:36px;height:36px;border-radius:50%;font-size:1.2rem;cursor:pointer}
-.modal h2{font-size:1.5rem;margin:10px 40px 14px 0;line-height:1.3}
-.video{aspect-ratio:16/9;border-radius:12px;overflow:hidden;background:var(--bg);border:1px dashed var(--line);display:grid;place-items:center;color:var(--muted);text-align:center;padding:12px;margin-bottom:20px}
-.video iframe{width:100%;height:100%;border:0}
-.content{max-width:68ch}
-.content h4{margin:18px 0 6px;font-size:1.05rem}
-.content p,.content li{margin-bottom:8px}
-.content ul,.content ol{padding-left:22px}
-.dl{margin:22px 0;padding:14px 16px;background:var(--bg);border:1px solid var(--line);border-radius:12px;display:flex;flex-wrap:wrap;gap:10px;align-items:center;justify-content:space-between}
-.actions{display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
-@media (max-width:560px){.modal{padding:18px}.actions .btn{width:100%}}
-@media (prefers-reduced-motion:reduce){.modal{animation:none}html{scroll-behavior:auto}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
 
-<header>
-  <div class="wrap">
-    <div class="bar">
-      <a class="brand" href="#" aria-label="Learning Hub">
-        <span class="logo" aria-hidden="true"><!-- Ganti dengan <img src="logo.png"> jika punya logo -->
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 8l10-5 10 5-10 5z"/><path d="M6 10.5V16c0 1.5 3 3 6 3s6-1.500 6-3v-5.500"/></svg>
-        </span>
-        Learning Hub
-      </a>
-      <label class="search">
-        <span class="sr" style="position:absolute;left:-9999px">Cari materi</span>
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.300-4.300"/></svg>
-        <input id="q" type="search" placeholder="Cari materi, topik, atau kata kunci…" autocomplete="off">
-      </label>
+<!-- ================= HALAMAN LOGIN ================= -->
+<section id="auth">
+  <div class="auth-card">
+    <div class="brand"><span class="logo">📘</span> Portal Belajar</div>
+    <h1 id="authTitle">Masuk ke akun Anda</h1>
+    <p class="sub" id="authSub">Lanjutkan belajar dari materi terakhir Anda.</p>
+
+    <div class="tabs" role="tablist">
+      <button id="tabLogin" class="active" type="button">Login</button>
+      <button id="tabRegister" type="button">Daftar / Tamu</button>
     </div>
-    <nav class="filters" id="filters" aria-label="Filter kategori"></nav>
+
+    <div class="field">
+      <label for="username">Nama / Email</label>
+      <input id="username" type="text" autocomplete="username" placeholder="mis. Budi atau budi@email.com">
+    </div>
+    <div class="field" id="passField">
+      <label for="password">Password</label>
+      <input id="password" type="password" autocomplete="current-password" placeholder="Minimal 4 karakter">
+    </div>
+    <div id="authError" role="alert"></div>
+    <button class="btn" id="authSubmit" type="button">Login</button>
+    <button class="guest hidden" id="guestBtn" type="button">Masuk sebagai Tamu (tanpa password)</button>
   </div>
-</header>
+</section>
 
-<main>
-  <section class="hero wrap">
-    <h1>Belajar apa saja, kapan saja, tanpa biaya.</h1>
-    <p>Kumpulan modul bacaan, video, dan latihan soal yang disusun ringkas supaya mudah diikuti. Pilih topik, buka materinya, dan tandai yang sudah selesai.</p>
-    <div class="stats" id="stats"></div>
-  </section>
-
-  <section class="wrap" id="katalog">
-    <div class="meta"><h2>Katalog materi</h2><small id="count"></small></div>
-    <div class="grid" id="grid"></div>
-  </section>
-</main>
-
-<footer><div class="wrap">© <span id="yr"></span> Learning Hub. Dibuat untuk belajar bersama.</div></footer>
-
-<div class="overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="mTitle">
-  <div class="modal">
-    <button class="x" id="close" aria-label="Tutup">×</button>
-    <div class="row" id="mTags"></div>
-    <h2 id="mTitle"></h2>
-    <div class="video" id="mVideo"></div>
-    <div class="content" id="mContent"></div>
-    <div class="dl" id="mDl"></div>
-    <div class="actions">
-      <button class="btn alt" id="finish"></button>
-      <button class="btn ghost" id="next">Lanjut ke materi berikutnya</button>
+<!-- ================= DASHBOARD ================= -->
+<section id="dashboard" class="hidden">
+  <header>
+    <div class="nav">
+      <div class="brand"><span class="logo">📘</span> Portal Belajar</div>
+      <div class="user">
+        <div class="avatar" id="avatar">U</div>
+        <span class="name" id="navName"></span>
+        <button class="btn ghost" id="logoutBtn" type="button">Logout</button>
+      </div>
     </div>
+    <div class="tools">
+      <input id="search" type="search" placeholder="Cari materi…" aria-label="Cari materi">
+      <select id="category" aria-label="Filter kategori"></select>
+    </div>
+  </header>
+
+  <div class="hero">
+    <h2 id="greeting">Selamat datang!</h2>
+    <p>Pilih materi di bawah ini, lalu belajar langsung di halaman ini. Anda bisa mengulang materi kapan saja.</p>
+    <ol>
+      <li>Cari materi atau pilih kategori.</li>
+      <li>Klik “Buka Konten H5P” pada kartu materi.</li>
+      <li>Selesaikan aktivitas, lalu klik “Tutup Materi”.</li>
+    </ol>
+  </div>
+
+  <main>
+    <div class="count" id="count"></div>
+    <div class="grid" id="grid"></div>
+  </main>
+</section>
+
+<!-- ================= MODAL H5P ================= -->
+<div id="modal" class="hidden" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal-box">
+    <div class="modal-head">
+      <h3 id="modalTitle"></h3>
+      <button class="btn" id="closeModal" type="button">Tutup Materi</button>
+    </div>
+    <div class="h5p-frame" id="frameBox"></div>
   </div>
 </div>
 
 <script>
 /* =====================================================================
-   CARA MENGELOLA KONTEN (tidak perlu mengubah HTML)
+   CARA MENGELOLA KONTEN H5P ANDA
    ---------------------------------------------------------------------
-   Semua materi ada di array `materials` di bawah ini.
+   1. Buka konten H5P Anda (di H5P.com, Lumi, WordPress, Moodle, dll.).
+   2. Klik "Embed" / "Sematkan", lalu salin kode <iframe ...>.
+   3. Ambil HANYA isi src="..." dari kode itu. Contoh:
+        <iframe src="https://contoh.h5p.com/content/123456/embed" ...>
+      maka URL-nya:  https://contoh.h5p.com/content/123456/embed
+   4. Tempel URL itu pada h5pEmbedUrl di array di bawah ini.
 
-   TAMBAH MATERI  : salin satu blok { ... }, tempel sebelum tanda ] , beri
-                    koma di antara blok, lalu isi datanya.
-   EDIT MATERI    : ubah nilai di dalam blok yang bersangkutan.
-   HAPUS MATERI   : hapus seluruh blok { ... } beserta komanya.
-
-   Arti setiap field:
-   id          : kode unik (teks/angka). Tidak boleh sama antar materi.
-                 Dipakai untuk menyimpan progres "Selesai", jadi jangan
-                 diganti-ganti setelah materi dipakai.
-   category    : "modul" (Modul Bacaan) | "video" | "kuis" (Latihan Soal)
-   topic       : nama topik, misal "Matematika". Jumlah topik unik
-                 otomatis dihitung di statistik hero.
-   title       : judul materi
-   description : deskripsi singkat untuk kartu (1–2 kalimat)
-   level       : "Pemula" | "Menengah" | "Mahir"
-   duration    : estimasi waktu, misal "15 menit"
-   video       : link EMBED video, atau "" jika tidak ada video.
-                 YouTube : https://www.youtube.com/embed/ID_VIDEO
-                 G. Drive: https://drive.google.com/file/d/ID_FILE/preview
-   content     : isi materi dalam HTML sederhana (<p>, <h4>, <ul>, <ol>, <li>).
-                 Pakai tanda backtick ` ... ` agar bisa multi-baris.
-   download    : { label: "Nama file", url: "link" } untuk PDF/slide,
-                 atau null jika tidak ada file.
-                 Tips: file bisa disimpan di repo GitHub (misal "files/a.pdf")
-                 atau pakai link Google Drive.
+   MENAMBAH MATERI : salin satu blok { ... }, beri id unik, lalu ubah isinya.
+   MENGHAPUS MATERI: hapus satu blok { ... } beserta koma di belakangnya.
+   KATEGORI        : isi "category" dengan teks bebas. Daftar filter dibuat
+                     otomatis dari kategori yang Anda pakai.
+   Biarkan h5pEmbedUrl berisi "" jika konten belum siap; viewer akan
+   menampilkan petunjuk.
    ===================================================================== */
-const materials = [
+const h5pContents = [
   {
-    id: "mat-001", category: "modul", topic: "Literasi Digital",
-    title: "Dasar-dasar Literasi Digital",
-    description: "Kenali cara menilai informasi online, menjaga akun, dan berinternet dengan aman.",
-    level: "Pemula", duration: "12 menit baca",
-    video: "",
-    content: `<p>Literasi digital adalah kemampuan menemukan, menilai, dan memakai informasi di internet secara bertanggung jawab.</p>
-      <h4>Tiga kebiasaan dasar</h4>
-      <ul><li>Periksa sumber sebelum membagikan informasi.</li><li>Gunakan kata sandi yang panjang dan berbeda di tiap akun.</li><li>Aktifkan verifikasi dua langkah.</li></ul>`,
-    download: { label: "Modul Literasi Digital (PDF)", url: "#" }
+    id: 1,
+    title: "Pengenalan Fotosintesis",
+    category: "Video Interaktif",
+    description: "Tonton video dan jawab pertanyaan yang muncul di tengah penjelasan.",
+    duration: "15 menit",
+    h5pEmbedUrl: "https://h5p.org/h5p/embed/1"   // GANTI dengan URL embed H5P Anda
   },
   {
-    id: "mat-002", category: "video", topic: "Matematika",
-    title: "Pecahan dan Persentase dalam Kehidupan Sehari-hari",
-    description: "Video penjelasan cara menghitung diskon, bunga, dan takaran memakai pecahan.",
-    level: "Pemula", duration: "18 menit tonton",
-    video: "",
-    content: `<p>Tonton video di atas, lalu coba hitung sendiri contoh berikut.</p>
-      <ol><li>Harga Rp80.000 diskon 25%. Berapa harga akhirnya?</li><li>Ubah 3/8 menjadi persen.</li></ol>`,
-    download: { label: "Slide presentasi (PDF)", url: "#" }
+    id: 2,
+    title: "Kuis Bilangan Pecahan",
+    category: "Kuis",
+    description: "Uji pemahaman operasi pecahan lewat soal pilihan ganda.",
+    duration: "10 menit",
+    h5pEmbedUrl: "https://h5p.org/h5p/embed/2"   // GANTI dengan URL embed H5P Anda
   },
   {
-    id: "mat-003", category: "kuis", topic: "Matematika",
-    title: "Latihan Soal: Aljabar Dasar",
-    description: "Sepuluh soal latihan persamaan linear satu variabel beserta pembahasannya.",
-    level: "Menengah", duration: "25 menit",
-    video: "",
-    content: `<p>Kerjakan dulu tanpa melihat pembahasan.</p>
-      <ol><li>Selesaikan: 3x + 5 = 20</li><li>Selesaikan: 2(x − 4) = 10</li></ol>
-      <h4>Kunci jawaban</h4><p>1) x = 5 &nbsp; 2) x = 9</p>`,
-    download: { label: "Lembar soal dan pembahasan (PDF)", url: "#" }
+    id: 3,
+    title: "Presensi & Kuis Pembuka",
+    category: "Presensi/Kuis H5P",
+    description: "Isi presensi kelas dan kerjakan kuis singkat sebelum pelajaran dimulai.",
+    duration: "5 menit",
+    h5pEmbedUrl: ""   // Kosong = belum diisi
   },
   {
-    id: "mat-004", category: "modul", topic: "Bahasa Inggris",
-    title: "Membaca Teks Bahasa Inggris dengan Efisien",
-    description: "Strategi skimming dan scanning untuk memahami teks panjang dengan cepat.",
-    level: "Menengah", duration: "15 menit baca",
-    video: "",
-    content: `<p><b>Skimming</b> berarti membaca sekilas untuk menangkap gagasan utama. <b>Scanning</b> berarti mencari informasi tertentu seperti angka atau nama.</p>
-      <h4>Langkah singkat</h4><ol><li>Baca judul dan paragraf pertama.</li><li>Lihat kalimat pertama tiap paragraf.</li><li>Cari kata kunci untuk pertanyaan Anda.</li></ol>`,
-    download: { label: "Ringkasan strategi (PDF)", url: "#" }
+    id: 4,
+    title: "Sistem Tata Surya",
+    category: "Video Interaktif",
+    description: "Jelajahi planet-planet dengan video yang dilengkapi hotspot informasi.",
+    duration: "20 menit",
+    h5pEmbedUrl: ""
   },
   {
-    id: "mat-005", category: "video", topic: "Pemrograman",
-    title: "Pengenalan HTML dan CSS",
-    description: "Bangun halaman web pertama Anda dari nol dalam satu sesi.",
-    level: "Pemula", duration: "30 menit tonton",
-    video: "",
-    content: `<p>HTML menyusun struktur halaman, CSS mengatur tampilannya.</p>
-      <ul><li>Buat file <code>index.html</code>.</li><li>Tambahkan judul, paragraf, dan gambar.</li><li>Beri warna dan jarak dengan CSS.</li></ul>`,
-    download: { label: "Kode contoh (ZIP)", url: "#" }
-  },
-  {
-    id: "mat-006", category: "kuis", topic: "Pemrograman",
-    title: "Kuis Logika Pemrograman",
-    description: "Uji pemahaman Anda tentang variabel, percabangan, dan perulangan.",
-    level: "Menengah", duration: "20 menit",
-    video: "",
-    content: `<p>Jawab pertanyaan berikut di kertas.</p>
-      <ol><li>Apa nilai y setelah <code>x = 3; y = x * 2 + 1</code>?</li><li>Kapan sebaiknya memakai perulangan?</li></ol>`,
-    download: { label: "Lembar kuis (PDF)", url: "#" }
-  },
-  {
-    id: "mat-007", category: "modul", topic: "Sains",
-    title: "Metode Ilmiah untuk Pemecah Masalah",
-    description: "Pahami alur dari pertanyaan, hipotesis, percobaan, sampai kesimpulan.",
-    level: "Pemula", duration: "10 menit baca",
-    video: "",
-    content: `<p>Metode ilmiah membantu kita menguji dugaan dengan bukti.</p>
-      <ol><li>Ajukan pertanyaan.</li><li>Buat hipotesis.</li><li>Lakukan percobaan.</li><li>Analisis data.</li><li>Tarik kesimpulan.</li></ol>`,
-    download: null
-  },
-  {
-    id: "mat-008", category: "modul", topic: "Statistika",
-    title: "Analisis Data Lanjutan dengan Spreadsheet",
-    description: "Pivot table, fungsi lookup, dan visualisasi untuk data berukuran besar.",
-    level: "Mahir", duration: "40 menit baca",
-    video: "",
-    content: `<p>Materi ini mengasumsikan Anda sudah paham rumus dasar.</p>
-      <h4>Topik</h4><ul><li>Pivot table</li><li>XLOOKUP dan INDEX-MATCH</li><li>Grafik untuk laporan</li></ul>`,
-    download: { label: "Dataset latihan (CSV)", url: "#" }
+    id: 5,
+    title: "Kuis Tata Bahasa Indonesia",
+    category: "Kuis",
+    description: "Latihan EYD, imbuhan, dan kalimat efektif dengan umpan balik langsung.",
+    duration: "12 menit",
+    h5pEmbedUrl: ""
   }
-  /* ← tempel blok materi baru di sini (jangan lupa koma setelah blok sebelumnya) */
 ];
+/* ================== AKHIR BAGIAN YANG PERLU DIUBAH ================== */
 
-/* Daftar kategori filter. Ubah label jika perlu. */
-const categories = [
-  { key: "all",   label: "Semua" },
-  { key: "modul", label: "Modul Bacaan" },
-  { key: "video", label: "Video" },
-  { key: "kuis",  label: "Latihan Soal / Kuis" }
-];
 
-/* ============ Kode di bawah ini tidak perlu diubah ============ */
-const catLabel = Object.fromEntries(categories.map(c => [c.key, c.label]));
+/* ---------- Penyimpanan (localStorage) ---------- */
+const USERS_KEY = "portal_users";      // daftar akun terdaftar (simulasi)
+const SESSION_KEY = "portal_session";  // pengguna yang sedang login
+
 const $ = id => document.getElementById(id);
-let activeCat = "all", query = "", openIndex = -1;
+const getUsers = () => { try { return JSON.parse(localStorage.getItem(USERS_KEY)) || {}; } catch { return {}; } };
+const saveUsers = u => localStorage.setItem(USERS_KEY, JSON.stringify(u));
+const getSession = () => { try { return JSON.parse(localStorage.getItem(SESSION_KEY)); } catch { return null; } };
 
-let completed = new Set();
-try { completed = new Set(JSON.parse(localStorage.getItem("hub-done") || "[]")); } catch (e) {}
-const saveDone = () => { try { localStorage.setItem("hub-done", JSON.stringify([...completed])); } catch (e) {} };
+/* ---------- Auth ---------- */
+let mode = "login";
 
-function renderStats() {
-  const topics = new Set(materials.map(m => m.topic)).size;
-  $("stats").innerHTML =
-    `<div class="stat"><b>${materials.length}</b><span>Total modul</span></div>` +
-    `<div class="stat"><b>${topics}</b><span>Topik terdaftar</span></div>` +
-    `<div class="stat"><b>100%</b><span>Gratis akses</span></div>`;
+function setMode(m){
+  mode = m;
+  const login = m === "login";
+  $("tabLogin").classList.toggle("active", login);
+  $("tabRegister").classList.toggle("active", !login);
+  $("authTitle").textContent = login ? "Masuk ke akun Anda" : "Buat akun baru";
+  $("authSub").textContent = login ? "Lanjutkan belajar dari materi terakhir Anda." : "Daftar untuk menyimpan nama Anda, atau masuk sebagai tamu.";
+  $("authSubmit").textContent = login ? "Login" : "Daftar & Masuk";
+  $("guestBtn").classList.toggle("hidden", login);
+  $("authError").textContent = "";
 }
 
-function renderFilters() {
-  $("filters").innerHTML = categories.map(c =>
-    `<button class="chip" data-cat="${c.key}" aria-pressed="${c.key === activeCat}">${c.label}</button>`).join("");
+function startSession(name, returning){
+  localStorage.setItem(SESSION_KEY, JSON.stringify({ name, returning }));
+  showDashboard();
 }
 
-function filtered() {
-  const q = query.trim().toLowerCase();
-  return materials.filter(m =>
-    (activeCat === "all" || m.category === activeCat) &&
-    (!q || [m.title, m.description, m.topic, catLabel[m.category], m.level].join(" ").toLowerCase().includes(q)));
+function submitAuth(){
+  const name = $("username").value.trim();
+  const pass = $("password").value;
+  const err = $("authError");
+  if(!name){ err.textContent = "Isi nama atau email terlebih dahulu."; return; }
+  if(pass.length < 4){ err.textContent = "Password minimal 4 karakter."; return; }
+
+  const users = getUsers();
+  const key = name.toLowerCase();
+
+  if(mode === "login"){
+    if(!users[key]){ err.textContent = "Akun belum terdaftar. Buka tab Daftar / Tamu."; return; }
+    if(users[key].pass !== pass){ err.textContent = "Password tidak cocok."; return; }
+    startSession(users[key].name, true);
+  } else {
+    if(users[key]){ err.textContent = "Nama ini sudah terdaftar. Silakan login."; return; }
+    users[key] = { name, pass };   // simulasi saja, bukan keamanan sungguhan
+    saveUsers(users);
+    startSession(name, false);
+  }
 }
 
-function renderGrid() {
-  const list = filtered();
-  $("count").textContent = `${list.length} materi ditampilkan`;
-  $("grid").innerHTML = list.length ? list.map(m => `
+function guestLogin(){
+  const name = $("username").value.trim() || "Tamu";
+  startSession(name, false);
+}
+
+function logout(){
+  localStorage.removeItem(SESSION_KEY);
+  closeModal();
+  $("dashboard").classList.add("hidden");
+  $("auth").classList.remove("hidden");
+  $("password").value = "";
+  setMode("login");
+}
+
+/* ---------- Dashboard ---------- */
+function showDashboard(){
+  const s = getSession();
+  if(!s) return;
+  $("auth").classList.add("hidden");
+  $("dashboard").classList.remove("hidden");
+  $("navName").textContent = s.name;
+  $("avatar").textContent = s.name.charAt(0).toUpperCase();
+  $("greeting").textContent = (s.returning ? "Selamat datang kembali, " : "Selamat datang, ") + s.name + "!";
+  buildCategories();
+  render();
+  window.scrollTo(0,0);
+}
+
+function buildCategories(){
+  const cats = ["Semua", ...new Set(h5pContents.map(c => c.category))];
+  $("category").innerHTML = cats.map(c => `<option value="${c}">${c === "Semua" ? "Semua Kategori" : c}</option>`).join("");
+}
+
+function esc(t){ const d = document.createElement("div"); d.textContent = t; return d.innerHTML; }
+
+function render(){
+  const q = $("search").value.trim().toLowerCase();
+  const cat = $("category").value || "Semua";
+  const list = h5pContents.filter(c =>
+    (cat === "Semua" || c.category === cat) &&
+    (c.title + " " + c.description + " " + c.category).toLowerCase().includes(q)
+  );
+  $("count").textContent = list.length + " materi ditemukan";
+  $("grid").innerHTML = list.length ? list.map(c => `
     <article class="card">
-      <div class="row">
-        <span class="tag ${m.category}">${catLabel[m.category]}</span>
-        ${completed.has(m.id) ? '<span class="done">✓ Selesai</span>' : ""}
-      </div>
-      <h3>${m.title}</h3>
-      <p>${m.description}</p>
-      <div class="row"><span class="lvl">Tingkat: ${m.level}</span><span class="time">• ${m.duration}</span></div>
-      <button class="btn" data-open="${m.id}">Buka materi</button>
+      <span class="tag">${esc(c.category)}</span>
+      <h3>${esc(c.title)}</h3>
+      <p>${esc(c.description)}</p>
+      <div class="meta">⏱ ${esc(c.duration || "-")}</div>
+      <button class="btn" data-id="${c.id}" type="button">Buka Konten H5P</button>
     </article>`).join("")
-    : `<div class="empty"><b>Materi tidak ditemukan.</b><br>Coba kata kunci lain atau pilih kategori Semua.</div>`;
+    : `<div class="empty">Tidak ada materi yang cocok. Coba kata kunci lain atau pilih “Semua Kategori”.</div>`;
 }
 
-function openMaterial(index) {
-  const m = materials[index]; if (!m) return;
-  openIndex = index;
-  $("mTags").innerHTML = `<span class="tag ${m.category}">${catLabel[m.category]}</span><span class="lvl">${m.topic} • ${m.level} • ${m.duration}</span>`;
-  $("mTitle").textContent = m.title;
-  $("mVideo").innerHTML = m.video
-    ? `<iframe src="${m.video}" title="Video: ${m.title}" allowfullscreen loading="lazy"></iframe>`
-    : `<span>Area video belum diisi.<br>Isi field <code>video</code> dengan link embed YouTube atau Drive.</span>`;
-  $("mContent").innerHTML = m.content;
-  $("mDl").innerHTML = m.download
-    ? `<span>${m.download.label}</span><a class="btn" href="${m.download.url}" target="_blank" rel="noopener" download>Unduh file</a>`
-    : `<span>Tidak ada file untuk materi ini.</span>`;
-  updateFinish();
-  $("next").style.display = index < materials.length - 1 ? "" : "none";
-  $("overlay").classList.add("open");
+/* ---------- Modal H5P ---------- */
+function openModal(id){
+  const c = h5pContents.find(x => x.id === id);
+  if(!c) return;
+  $("modalTitle").textContent = c.title;
+  const box = $("frameBox");
+  if(c.h5pEmbedUrl){
+    box.innerHTML = `<iframe src="${c.h5pEmbedUrl}" title="${esc(c.title)}" allowfullscreen allow="fullscreen; autoplay"></iframe>`;
+  } else {
+    box.innerHTML = `<div class="placeholder"><div><h3>Konten belum dipasang</h3><p>Isi <code>h5pEmbedUrl</code> untuk materi ini di array <code>h5pContents</code> pada file index.html.</p></div></div>`;
+  }
+  $("modal").classList.remove("hidden");
   document.body.style.overflow = "hidden";
-  $("close").focus();
+  $("closeModal").focus();
 }
 
-function updateFinish() {
-  const m = materials[openIndex];
-  const isDone = completed.has(m.id);
-  $("finish").textContent = isDone ? "✓ Sudah selesai (klik untuk batalkan)" : "Selesai membaca";
-}
-
-function closeModal() {
-  $("overlay").classList.remove("open");
+function closeModal(){
+  $("modal").classList.add("hidden");
+  $("frameBox").innerHTML = "";   // hentikan video/audio H5P
   document.body.style.overflow = "";
-  renderGrid();
 }
 
-$("filters").addEventListener("click", e => {
-  const b = e.target.closest("[data-cat]"); if (!b) return;
-  activeCat = b.dataset.cat; renderFilters(); renderGrid();
-});
-$("q").addEventListener("input", e => { query = e.target.value; renderGrid(); });
+/* ---------- Event ---------- */
+$("tabLogin").onclick = () => setMode("login");
+$("tabRegister").onclick = () => setMode("register");
+$("authSubmit").onclick = submitAuth;
+$("guestBtn").onclick = guestLogin;
+$("logoutBtn").onclick = logout;
+$("closeModal").onclick = closeModal;
+$("search").oninput = render;
+$("category").onchange = render;
 $("grid").addEventListener("click", e => {
-  const b = e.target.closest("[data-open]"); if (!b) return;
-  openMaterial(materials.findIndex(m => m.id === b.dataset.open));
+  const b = e.target.closest("button[data-id]");
+  if(b) openModal(Number(b.dataset.id));
 });
-$("finish").addEventListener("click", () => {
-  const id = materials[openIndex].id;
-  completed.has(id) ? completed.delete(id) : completed.add(id);
-  saveDone(); updateFinish();
+$("modal").addEventListener("click", e => { if(e.target === $("modal")) closeModal(); });
+document.addEventListener("keydown", e => {
+  if(e.key === "Escape") closeModal();
+  if(e.key === "Enter" && !$("auth").classList.contains("hidden")) submitAuth();
 });
-$("next").addEventListener("click", () => { openMaterial(openIndex + 1); $("overlay").scrollTo(0, 0); });
-$("close").addEventListener("click", closeModal);
-$("overlay").addEventListener("click", e => { if (e.target.id === "overlay") closeModal(); });
-document.addEventListener("keydown", e => { if (e.key === "Escape" && $("overlay").classList.contains("open")) closeModal(); });
 
-$("yr").textContent = new Date().getFullYear();
-renderStats(); renderFilters(); renderGrid();
+/* ---------- Mulai: pulihkan sesi bila masih login ---------- */
+if(getSession()) showDashboard();
 </script>
 </body>
 </html>
